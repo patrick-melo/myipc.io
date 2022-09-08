@@ -255,8 +255,8 @@ function main() {
     server.get('*', callDefault);
   }
 
-  server.listen(2000);
-  console.log("Starting myipc.io on port 2000...");
+  server.listen(80);
+  console.log("Starting myipc.io on port 80...");
 }
 
 main();

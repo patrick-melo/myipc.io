@@ -1,0 +1,37 @@
+version: '3'
+
+networks:
+    main:
+  
+services:
+    web:
+        build: .
+        hostname: node
+        ports:
+            - "80:80"
+            - "2000:2000"
+            - "3000:3000"
+        volumes:
+            - .:/usr/app
+            - /usr/app/node_modules
+        environment:
+            DATABASE_URL: postgres://postgres@postgres/postgres
+        networks:
+            main:
+                aliases:
+                    - web
+    postgres:
+        hostname: postres
+        image: postgres:14.4-alpine
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: postgres
+        volumes:
+            - ./data:/var/lib/postgresql/data
+        networks:
+            main:
+                aliases:
+                    - postgres

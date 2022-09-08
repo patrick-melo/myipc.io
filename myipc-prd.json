@@ -1,0 +1,27 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "containerDefinitions": [{
+        "name": "myipc-prd",
+        "image": "414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest",
+        "essential": true,
+        "portMappings": [{
+            "containerPort": 80,
+            "protocol": "tcp"
+        }],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "myipc-prd",
+                "awslogs-region": "us-west-1",
+                "awslogs-stream-prefix": "fargate"
+            }
+        } 
+    }],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::414221411811:role/ecsTaskExecutionRole",
+    "family": "myipc-prd"
+}

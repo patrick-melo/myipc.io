@@ -16,6 +16,22 @@ A web based dApp created for [Playchemy](https://www.playchemy.com) that decodes
 
 This is a live version of the repo.
 
+# Docker Quickstart
+Many of the instructions in this README are automated and designed to run in docker. Follow these instructions to get started:
+
+    git clone git@github.com:patrick-melo/myipc.git
+    cd myipc.io
+    bin/m.sh make  # make the docker image
+    bin/m.sh run   # run the docker image
+    bin/m.sh init  # populate the postgres db
+    bin/m.sh open  # open the local website
+    
+# AWS Quickstart
+To deploy to AWS, run these commands:
+
+    bin/m.sh make
+    bin/m.sh restart
+
 # Requirements
 
 - NodeJS
