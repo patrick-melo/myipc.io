@@ -16,21 +16,35 @@ A web based dApp created for [Playchemy](https://www.playchemy.com) that decodes
 
 This is a live version of the repo.
 
-# Docker Quickstart
-Many of the instructions in this README are automated and designed to run in docker. Follow these instructions to get started:
+# Docker
+Many of the instructions in this README are automated and designed to run in docker. 
+
+These commands assume that you have the `m` alias. You can create the alias by adding the following line to your ~/.zshrc
+
+    alias m=~/eclipse-workspace/myipc.io/bin/m.sh
+
+You will also need a copy of `react/src/config.dev.js` and `react/src/config.prd.js`. These are not part of the repo because they the `IPCDB_WEB3_PROVIDER` and the db password to prd.
+
+## Docker Quickstart
+Follow these instructions to get started:
 
     git clone git@github.com:patrick-melo/myipc.git
     cd myipc.io
-    bin/m.sh make  # make the docker image
-    bin/m.sh run   # run the docker image
-    bin/m.sh init  # populate the postgres db
-    bin/m.sh open  # open the local website
-    
-# AWS Quickstart
-To deploy to AWS, run these commands:
+    m make      # make the docker image
+    m run       # run the docker image
+    m init dev  # populate react/build/sprites and the postgres db 
+    m run       # restart the container (use ^C to cancel the previous instance)
+    m open dev  # open the local website
 
-    bin/m.sh make
-    bin/m.sh restart
+The file test.sh has 3 modes for running the server. The prd server uses prd. I use debug to troubleshoot issues on dev. Change the last line of the file to choose which you want to run.
+    
+## AWS Quickstart
+To deploy to AWS, run the following commands. You will need a copy of `react/src/config.prd.js` and `~/.aws/credentials`. If you run into problems with the task, review the logs in CloudWatch.
+
+    m make      # make the docker image
+    m run       # run the docker image
+    m init prd  # populate react/build/sprites and the postgres db 
+    m deploy    # deploy to prd
 
 # Requirements
 

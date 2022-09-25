@@ -1,5 +1,4 @@
 <?php
-namespace aws\ecs;
 require dirname(__FILE__).'/aws.phar';
 
 class EcsTaskStopCommand {
@@ -16,7 +15,7 @@ class EcsTaskStopCommand {
         ]);
         
         $tasks = $client->listTasks(['cluster'=>$cluster])['taskArns'];
-        var_dump($client->listTasks(['cluster'=>$cluster]));
+        //var_dump($client->listTasks(['cluster'=>$cluster]));
         if (!$tasks){
             echo ("No tasks for cluster $cluster"); exit;
         }

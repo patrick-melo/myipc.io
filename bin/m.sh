@@ -34,27 +34,97 @@ cmd_aws() { docker run --rm -it -v ~/.aws:/root/.aws --env AWS_PAGER="" amazon/a
 
 #+       clean        Remove all the docker images
 #
-cmd_clean() { docker system prune --all --force ; }
+cmd_clean() { docker container rm myipcio_web_1; }
+
+cmd_clean_bang() { docker system prune --all --force; }
 
 #+       clone        Clone the SmallBall repo
 #
 cmd_clone() { git clone git@github.com:patrick-melo/myipc.git ; }
 
+cmd_commit() { docker container commit myipcio_web_1 myipcio_web_1 ; }
+
 #+       debug        Prefix with this command to display more debug info
 #
 cmd_debug() { sh -x $THIS "$@" ; }
+
+#+       deploy       Push the code to AWS
+#
+cmd_deploy() {    
+    echo "=> login"
+    cmd_login
+    [ $? -ne 0 ] && error "login failed"
+
+    echo "=> tag"
+    docker tag myipcio_web_1 414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest
+    [ $? -ne 0 ] && error "tag failed"
+    echo "tag successful"
+    
+    echo "=> push"
+    docker push 414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest
+    [ $? -ne 0 ] && error "push failed"
+    echo "push successful"
+
+    cmd_restart
+}
+
+#+       env          Configure the system to run as dev or prd
+#
+cmd_env() {
+    env=$1
+    case $env in
+    dev) cmd_env_dev ;;
+    prd) cmd_env_prd ;;
+    *) usage "m env ['dev'|'prd']"
+    esac
+}
+
+cmd_env_dev() { 
+    echo "=> set env to dev"
+    cd $THIS_DIR
+    docker cp react/src/config.dev.js myipcio_web_1:/usr/app/react/src/config.js
+}
+
+cmd_env_prd() { 
+    echo "=> set env to prd"
+    cd $THIS_DIR
+    docker cp react/src/config.prd.js myipcio_web_1:/usr/app/react/src/config.js
+}
 
 #+       help         Display help
 #
 cmd_help() { grep -h "^#+" $THIS | cut -c4- | less -is ; }
 
+cmd_history() { docker history myipcio_web_1 ; }
+
+#+       init         Initialize the web and postgres containers
+#
 cmd_init() {
-    echo "=> create database"
-    cmd_sh postgres 'psql -h localhost -U postgres -d postgres -c "create database myipc"'
-    
-    echo "=> populate database (5m / 2831 rows)"
-    cmd_sh web 'node ipc-install'
+    inst=$1
+    [ -z "$inst" ] && usage "init ['dev'|'prd']"
+
+    echo "=> init (5m)"
+    cmd_env $inst
+    cmd_init_web
+    cmd_init_postgres
 }
+
+cmd_init_web() {
+    echo "=> init web"
+    cmd_sh web 'cd react &&\
+        npm run build &&\
+        mv build/index.html build/main.html &&\
+        mkdir build/sprites
+    '
+}
+
+cmd_init_postgres() {
+    echo "=> init postgres"
+    cmd_sh postgres 'psql -h localhost -U postgres -d postgres -c "create database myipc"' >/dev/null 2>&1
+    cmd_sh web 'node ipc-install'
+    cmd_commit
+}
+
 
 #+       login        Log into AWS
 #
@@ -63,43 +133,40 @@ cmd_login() { cmd_aws ecr get-login-password --region us-west-1 --profile playch
 #+       make         User docker to build the dev containers
 #
 cmd_make() { 
+    echo "=> make (1m)"
     cd $THIS_DIR
-    docker-compose build ; 
+    docker-compose build
 }
 
 #+       open         Open the dev website
 #
-cmd_open() { open http://localhost/; }
+cmd_open() { 
+    case $1 in
+    dev) open http://localhost/ ;;
+    prd) open http://myipc-prd-880583870.us-west-1.elb.amazonaws.com/2832 ;;
+    *) usage "m open ['dev'|'prd']"
+    esac
+}
 
 #+       psql         Execute sql commands
 #
 cmd_psql() {
-    cmd_sh postgres 'psql -h localhost -U postgres -d myipc'
+    inst=$1
+
+    case $inst in
+    dev) cmd_sh postgres 'psql -h localhost -U postgres -d myipc' ;;
+    prd) cmd_sh postgres 'psql -h prd.cfgms5e7dhpc.us-west-1.rds.amazonaws.com -U postgres -d myipc' ;;
+    *) usage "m psql ['dev'|'prd']"
+    esac
 }
 
 #+       pull         Pull the latest code
 #
 cmd_pull() { cd $THIS_DIR ; git pull ; }
 
-#+       push         Push the code to AWS
+#+       restart      Restart the prd task
 #
-cmd_push() {    
-    echo "=> login"
-    cmd_login
-    [ $? -ne 0 ] && error "login failed"
-
-    echo "=> tag"
-    docker tag myipcio_web 414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest
-    [ $? -ne 0 ] && error "tag failed"
-    echo "tag successful"
-    
-    echo "=> push"
-    docker push 414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest
-    [ $? -ne 0 ] && error "push failed"
-    echo "push successful"
-}
-
-cmd_restart() { php $THIS_DIR/EcsTaskStopCommand.php prd myipc-prd ; }
+cmd_restart() { php $THIS_DIR/bin/EcsTaskStopCommand.php prd myipc-prd ; }
 
 #+       run          Run SmallBall
  #
@@ -107,7 +174,6 @@ cmd_restart() { php $THIS_DIR/EcsTaskStopCommand.php prd myipc-prd ; }
     cd $THIS_DIR
     docker-compose up --remove-orphans
  }
-
 
 #+       sh           Open a shell on the docker container
 #
@@ -128,14 +194,12 @@ cmd_sh() {
     fi 
 }
 
-#+       ssh          Open a shell on the prd server
-#
-cmd_ssh() { ssh -i $THIS_DIR/devops/conf/ssh/id_rsa x@y "$@" ; }
-
 #+       source       Edit the source to this script
 #
 cmd_source() { vi $THIS ; }
 
+#+       version      Display the software version
+#
 cmd_version() { cd $THIS_DIR ; git describe --dirty ; }
 
 #------------------------------------------------------------------------------
@@ -144,16 +208,20 @@ main() {
     case $cmd in
         aws) cmd_aws "$@" ;;
         clean) cmd_clean "$@" ;;
+        clean!) cmd_clean_bang "$@" ;;
         clone) cmd_clone "$@" ;;
+        commit) cmd_commit "$@" ;;
         debug) cmd_debug "$@" ;;
+        deploy|push) cmd_deploy "$@" ;;
+        env) cmd_env "$@" ;;
         help) cmd_help "$@" ;;
+        history) cmd_history "$@" ;;
         init) cmd_init "$@" ;;
         login) cmd_login "$@" ;;
         make) cmd_make "$@" ;;
         open) cmd_open "$@" ;;
         psql) cmd_psql "$@" ;;
         pull) cmd_pull "$@" ;;
-        push|deploy) cmd_push "$@" ;;
         restart) cmd_restart "$@" ;;
         run) cmd_run "$@" ;;
         sh) cmd_sh "$@" ;;
@@ -164,6 +232,6 @@ main() {
     esac
 }
 
-THIS_DIR=$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd )
-THIS=$THIS_DIR/m.sh
+THIS_DIR=$( cd "$(dirname "$0")" >/dev/null 2>&1 ; cd ../ ; pwd )
+THIS=$THIS_DIR/bin/m.sh
 main "$@"
