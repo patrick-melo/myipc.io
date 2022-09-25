@@ -42,7 +42,7 @@ cmd_clean_bang() { docker system prune --all --force; }
 #
 cmd_clone() { git clone git@github.com:patrick-melo/myipc.git ; }
 
-cmd_commit() { docker container commit myipcio_web_1 myipcio_web_1 ; }
+cmd_commit() { docker commit  -m "Initialized $(date)" myipcio_web_1 myipcio_web_1 ; }
 
 #+       debug        Prefix with this command to display more debug info
 #
@@ -66,6 +66,8 @@ cmd_deploy() {
     echo "push successful"
 
     cmd_restart
+
+    echo "Deploy completed at $(date)"
 }
 
 #+       env          Configure the system to run as dev or prd
@@ -75,7 +77,7 @@ cmd_env() {
     case $env in
     dev) cmd_env_dev ;;
     prd) cmd_env_prd ;;
-    *) usage "m env ['dev'|'prd']"
+    *) cmd_sh web 'cat /usr/app/react/src/config.js';
     esac
 }
 
@@ -107,6 +109,7 @@ cmd_init() {
     cmd_env $inst
     cmd_init_web
     cmd_init_postgres
+    cmd_commit
 }
 
 cmd_init_web() {
@@ -122,7 +125,6 @@ cmd_init_postgres() {
     echo "=> init postgres"
     cmd_sh postgres 'psql -h localhost -U postgres -d postgres -c "create database myipc"' >/dev/null 2>&1
     cmd_sh web 'node ipc-install'
-    cmd_commit
 }
 
 

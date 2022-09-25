@@ -13,10 +13,6 @@ RUN apt-get update && apt-get install -y \
 RUN cd /usr/app && npm install
 
 # Build react
-RUN cd react &&\
-    cp src/config.dev.js src/config.js
-#    npm run build &&\
-#    mv build/index.html build/main.html &&\
-#    mkdir build/sprites
+RUN cp react/src/config.dev.js react/src/config.js
 
 CMD [ "/usr/app/start.sh" ]

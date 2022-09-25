@@ -17,7 +17,7 @@ class EcsTaskStopCommand {
         $tasks = $client->listTasks(['cluster'=>$cluster])['taskArns'];
         //var_dump($client->listTasks(['cluster'=>$cluster]));
         if (!$tasks){
-            echo ("No tasks for cluster $cluster"); exit;
+            echo ("No tasks for cluster $cluster\n"); exit;
         }
         foreach ($tasks as $task) {
             echo "=> stop $task\n";
