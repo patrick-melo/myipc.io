@@ -46,6 +46,12 @@ To deploy to AWS, run the following commands. You will need a copy of `react/src
     m init prd  # populate react/build/sprites and the postgres db 
     m deploy    # deploy to prd
 
+## Backup
+The following commands will update the db backup.
+
+    m env prd
+    m backup
+
 # Requirements
 
 - NodeJS

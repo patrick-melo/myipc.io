@@ -32,6 +32,13 @@ usage() { echo "Usage: $@" ; exit 1; }
 #
 cmd_aws() { docker run --rm -it -v ~/.aws:/root/.aws --env AWS_PAGER="" amazon/aws-cli "$@" --region=us-west-1 ; }
 
+#+       aws          Run an AWS command
+#
+cmd_backup() {
+    cmd_sh web 'node ipc-backup'
+    docker cp myipcio_web_1:/usr/app/backup.json $THIS_DIR/backup.json
+}
+
 #+       clean        Remove all the docker images
 #
 cmd_clean() { docker container rm myipcio_web_1; }
@@ -209,6 +216,7 @@ main() {
     cmd=$1 ; shift
     case $cmd in
         aws) cmd_aws "$@" ;;
+        backup) cmd_backup "$@" ;;
         clean) cmd_clean "$@" ;;
         clean!) cmd_clean_bang "$@" ;;
         clone) cmd_clone "$@" ;;
