@@ -26,7 +26,7 @@ These commands assume that you have the `m` alias. You can create the alias by a
 You will also need a copy of `react/src/config.dev.js` and `react/src/config.prd.js`. These are not part of the repo because they the `IPCDB_WEB3_PROVIDER` and the db password to prd.
 
 ## Docker Quickstart
-Follow these instructions to get started:
+Don't try to open the site until these steps are completed else the node server will terminate. Follow these instructions to get started: 
 
     git clone git@github.com:patrick-melo/myipc.git
     cd myipc.io

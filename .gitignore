@@ -6,6 +6,6 @@ react/public/sprites
 react/public/cards
 data
 
-react/src/config.dev.js
+# react/src/config.dev.js
 react/src/config.prd.js
 VERSION

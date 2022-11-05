@@ -36,12 +36,12 @@ cmd_aws() { docker run --rm -it -v ~/.aws:/root/.aws --env AWS_PAGER="" amazon/a
 #
 cmd_backup() {
     cmd_sh web 'node ipc-backup'
-    docker cp myipcio_web_1:/usr/app/backup.json $THIS_DIR/backup.json
+    docker cp myipcio-web-1:/usr/app/backup.json $THIS_DIR/backup.json
 }
 
 #+       clean        Remove all the docker images
 #
-cmd_clean() { docker container rm myipcio_web_1; }
+cmd_clean() { docker container rm myipcio-web-1; }
 
 cmd_clean_bang() { docker system prune --all --force; }
 
@@ -49,7 +49,7 @@ cmd_clean_bang() { docker system prune --all --force; }
 #
 cmd_clone() { git clone git@github.com:patrick-melo/myipc.git ; }
 
-cmd_commit() { docker commit  -m "Initialized $(date)" myipcio_web_1 myipcio_web_1 ; }
+cmd_commit() { docker commit  -m "Initialized $(date)" myipcio-web-1 myipcio-web-1 ; }
 
 #+       debug        Prefix with this command to display more debug info
 #
@@ -63,7 +63,7 @@ cmd_deploy() {
     [ $? -ne 0 ] && error "login failed"
 
     echo "=> tag"
-    docker tag myipcio_web_1 414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest
+    docker tag myipcio-web-1 414221411811.dkr.ecr.us-west-1.amazonaws.com/myipc:latest
     [ $? -ne 0 ] && error "tag failed"
     echo "tag successful"
     
@@ -91,20 +91,20 @@ cmd_env() {
 cmd_env_dev() { 
     echo "=> set env to dev"
     cd $THIS_DIR
-    docker cp react/src/config.dev.js myipcio_web_1:/usr/app/react/src/config.js
+    docker cp react/src/config.dev.js myipcio-web-1:/usr/app/react/src/config.js
 }
 
 cmd_env_prd() { 
     echo "=> set env to prd"
     cd $THIS_DIR
-    docker cp react/src/config.prd.js myipcio_web_1:/usr/app/react/src/config.js
+    docker cp react/src/config.prd.js myipcio-web-1:/usr/app/react/src/config.js
 }
 
 #+       help         Display help
 #
 cmd_help() { grep -h "^#+" $THIS | cut -c4- | less -is ; }
 
-cmd_history() { docker history myipcio_web_1 ; }
+cmd_history() { docker history myipcio-web-1 ; }
 
 #+       init         Initialize the web and postgres containers
 #
@@ -115,8 +115,9 @@ cmd_init() {
     echo "=> init (5m)"
     cmd_env $inst
     cmd_init_web
-    cmd_init_postgres
-    cmd_commit
+
+    #cmd_init_postgres
+    #cmd_commit
 }
 
 cmd_init_web() {
@@ -207,6 +208,20 @@ cmd_sh() {
 #
 cmd_source() { vi $THIS ; }
 
+cmd_pullfile() {
+    file=$1
+    [ -z "$file" ] && usage "m pull [file]"
+
+    docker cp myipcio-web-1:/usr/app/$file $THIS_DIR/$file
+}
+
+cmd_pushfile() {
+    file=$1
+    [ -z "$file" ] && usage "m push [file]"
+
+    docker cp $THIS_DIR/$file myipcio-web-1:/usr/app/$file 
+}
+
 #+       version      Display the software version
 #
 cmd_version() { cd $THIS_DIR ; git describe --dirty ; }
@@ -232,6 +247,8 @@ main() {
         open) cmd_open "$@" ;;
         psql) cmd_psql "$@" ;;
         pull) cmd_pull "$@" ;;
+        pullfile) cmd_pullfile "$@" ;;
+        pushfile) cmd_pushfile "$@" ;;
         restart) cmd_restart "$@" ;;
         run) cmd_run "$@" ;;
         sh) cmd_sh "$@" ;;
