@@ -17,7 +17,7 @@ const config = {
 
     IPC_LIST_LIMIT: 24,
 
-    DEVELOPMENT_MODE: 1,
+    DEVELOPMENT_MODE: 0,
 
     PRODUCTION_DIR: "react/build/", 
     PUBLIC_ROOT: "/",

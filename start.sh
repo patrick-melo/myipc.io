@@ -1,12 +1,8 @@
 #!/bin/bash
 
-function prd() {
-    node index
-}
+function prd() { node index ; }
 
-function debug() {
-    sleep 999999999
-}
+function debug() { sleep 999999999 ; }
 
 function dev() {
     echo "=> start post 3000 and wait for it to become available"

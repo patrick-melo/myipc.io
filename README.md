@@ -32,8 +32,10 @@ Don't try to open the site until these steps are completed else the node server 
     cd myipc.io
     m make      # make the docker image
     m run       # run the docker image
-    m init dev  # populate react/build/sprites and the postgres db 
-    m run       # restart the container (use ^C to cancel the previous instance)
+
+Leave this last command running and start a new terminal window for these commands:
+
+    m init dev  # populate react/build/sprites and the postgres db
     m open dev  # open the local website
 
 The file test.sh has 3 modes for running the server. The prd server uses prd. I use debug to troubleshoot issues on dev. Change the last line of the file to choose which you want to run.

@@ -88,18 +88,6 @@ cmd_env() {
     esac
 }
 
-cmd_env_dev() { 
-    echo "=> set env to dev"
-    cd $THIS_DIR
-    docker cp react/src/config.dev.js myipcio-web-1:/usr/app/react/src/config.js
-}
-
-cmd_env_prd() { 
-    echo "=> set env to prd"
-    cd $THIS_DIR
-    docker cp react/src/config.prd.js myipcio-web-1:/usr/app/react/src/config.js
-}
-
 #+       help         Display help
 #
 cmd_help() { grep -h "^#+" $THIS | cut -c4- | less -is ; }
@@ -112,17 +100,22 @@ cmd_init() {
     inst=$1
     [ -z "$inst" ] && usage "init ['dev'|'prd']"
 
-    echo "=> init (5m)"
-    cmd_env $inst
+    echo "=> init $env (5m)"
+    cd $THIS_DIR
+    docker cp react/src/config.$inst.js myipcio-web-1:/usr/app/react/src/config.js
     cmd_init_web
 
-    #cmd_init_postgres
-    #cmd_commit
+    [ $inst == "prd" ] && cmd_backup
+
+    cmd_init_postgres
+    cmd_commit
 }
 
 cmd_init_web() {
     echo "=> init web"
-    cmd_sh web 'cd react &&\
+    cmd_sh web '
+        cd react &&\
+        npm install jsx-runtime
         npm run build &&\
         mv build/index.html build/main.html &&\
         mkdir build/sprites

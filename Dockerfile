@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y \
     vim
 
 # Install dependencies
+RUN apt-get install -y libsdl-pango-dev
+RUN npm install -g \
+    npm@9.1.3 \
+    react-scripts
 RUN cd /usr/app && npm install
 
 # Build react
