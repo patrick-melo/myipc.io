@@ -20,7 +20,7 @@
 # Use the following as a style guide: https://google.github.io/styleguide/shell.xml
 # Use `man ps` as an example for the help command.
 
-dockerid() { echo $(docker ps --format "table {{.ID}}\t{{.Names}}" | awk '$2 ~ /'$1'/ {print $1}') ; }
+dockerid() { echo $(docker ps --format "table {{.ID}}\t{{.Names}}" | awk '$2 ~ /myipcio-'$1'-1/ {print $1}') ; }
 
 error() { echo $1 ; exit 1 ; }
 
@@ -50,6 +50,10 @@ cmd_clean_bang() { docker system prune --all --force; }
 cmd_clone() { git clone git@github.com:patrick-melo/myipc.git ; }
 
 cmd_commit() { docker commit  -m "Initialized $(date)" myipcio-web-1 myipcio-web-1 ; }
+
+cmd_conf() { awk -F\" '/'$2'/ {print $2}' $1 ;}
+
+cmd_configure() { cmd_aws configure ; }
 
 #+       debug        Prefix with this command to display more debug info
 #
@@ -115,7 +119,7 @@ cmd_init_web() {
     echo "=> init web"
     cmd_sh web '
         cd react &&\
-        npm install jsx-runtime
+        npm install jsx-runtime &&\
         npm run build &&\
         mv build/index.html build/main.html &&\
         mkdir build/sprites
@@ -125,9 +129,9 @@ cmd_init_web() {
 cmd_init_postgres() {
     echo "=> init postgres"
     cmd_sh postgres 'psql -h localhost -U postgres -d postgres -c "create database myipc"' >/dev/null 2>&1
+    echo "=> node ipc-install"
     cmd_sh web 'node ipc-install'
 }
-
 
 #+       login        Log into AWS
 #
@@ -155,12 +159,16 @@ cmd_open() {
 #
 cmd_psql() {
     inst=$1
+    [ "$inst" != "dev" -a "$inst" != "prd" ] && usage "m psql ['dev'|'prd']"
+    
+    file=$THIS_DIR/react/src/config.$inst.js
+    
+    host=$(cmd_conf $file IPCDB_HOST)
+    user=$(cmd_conf $file IPCDB_USERNAME)
+    pass=$(cmd_conf $file IPCDB_PASSWORD)
+    data=$(cmd_conf $file IPCDB_DATABASE)
 
-    case $inst in
-    dev) cmd_sh postgres 'psql -h localhost -U postgres -d myipc' ;;
-    prd) cmd_sh postgres 'psql -h prd.cfgms5e7dhpc.us-west-1.rds.amazonaws.com -U postgres -d myipc' ;;
-    *) usage "m psql ['dev'|'prd']"
-    esac
+    cmd_sh postgres "PGPASSWORD=$pass psql -h $host -d $data -U $user"
 }
 
 #+       pull         Pull the latest code
@@ -201,6 +209,26 @@ cmd_sh() {
 #
 cmd_source() { vi $THIS ; }
 
+cmd_status() {
+    x=http://myipc.io
+    echo "=> $x [301 https://www.myipc.io] ] (comes from namecheap URL Redirect Record)"
+    cmd_status_curl $x
+
+    x=https://myipc.io
+    echo "=> $x (200)"
+    cmd_status_curl $x
+
+    x=http://www.myipc.io
+    echo "=> $x [301 https://www.myipc.io:443] (comes from alb listener)"
+    cmd_status_curl $x
+
+    x=https://www.myipc.io
+    echo "=> $x (200)"
+    cmd_status_curl $x
+}
+
+cmd_status_curl() { curl -m 1 -sS --head $1 2>&1 | egrep "curl|HTTP|Location" ; echo ; }
+
 cmd_pullfile() {
     file=$1
     [ -z "$file" ] && usage "m pull [file]"
@@ -229,6 +257,8 @@ main() {
         clean!) cmd_clean_bang "$@" ;;
         clone) cmd_clone "$@" ;;
         commit) cmd_commit "$@" ;;
+        conf) cmd_conf "$@" ;;
+        configure) cmd_configure "$@" ;;
         debug) cmd_debug "$@" ;;
         deploy|push) cmd_deploy "$@" ;;
         env) cmd_env "$@" ;;
@@ -247,6 +277,7 @@ main() {
         sh) cmd_sh "$@" ;;
         ssh) cmd_ssh "$@" ;;
         source) cmd_source "$@" ;;
+        status) cmd_status "$@" ;;
         version) cmd_version "$@" ;;
         *) echo "m [command]" ;;
     esac
