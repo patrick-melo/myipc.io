@@ -155,6 +155,14 @@ cmd_open() {
     esac
 }
 
+#+       php          Execute php commands
+#
+# Scripts need to be in $THIS_DIR/bin and credentials need to be in ~/.credentials
+cmd_php() {
+    script=$(basename $1); shift
+    docker container run --rm -v ~/.aws/credentials:/root/.aws/credentials -v $THIS_DIR/bin:/app/bin php:7.4-cli php /app/bin/$script "$@"
+}
+
 #+       psql         Execute sql commands
 #
 cmd_psql() {
@@ -177,7 +185,7 @@ cmd_pull() { cd $THIS_DIR ; git pull ; }
 
 #+       restart      Restart the prd task
 #
-cmd_restart() { php $THIS_DIR/bin/EcsTaskStopCommand.php prd myipc-prd ; }
+cmd_restart() { cmd_php $THIS_DIR/bin/EcsTaskStopCommand.php prd myipc-prd ; }
 
 #+       run          Run SmallBall
  #
@@ -268,6 +276,7 @@ main() {
         login) cmd_login "$@" ;;
         make) cmd_make "$@" ;;
         open) cmd_open "$@" ;;
+        php) cmd_php "$@" ;;
         psql) cmd_psql "$@" ;;
         pull) cmd_pull "$@" ;;
         pullfile) cmd_pullfile "$@" ;;
