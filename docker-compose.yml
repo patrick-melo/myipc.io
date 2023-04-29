@@ -5,15 +5,16 @@ networks:
   
 services:
     web:
+        platform: linux/amd64
         build: .
         hostname: node
         ports:
             - "80:80"
             - "2000:2000"
             - "3000:3000"
-        volumes:
+        #volumes:
             #- .:/usr/app
-            - /usr/app/node_modules
+            #- /usr/app/node_modules
         environment:
             DATABASE_URL: postgres://postgres@postgres/postgres
         networks:

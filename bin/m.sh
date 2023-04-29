@@ -35,6 +35,7 @@ cmd_aws() { docker run --rm -it -v ~/.aws:/root/.aws --env AWS_PAGER="" amazon/a
 #+       aws          Run an AWS command
 #
 cmd_backup() {
+    echo "=> backup postgres"
     cmd_sh web 'node ipc-backup'
     docker cp myipcio-web-1:/usr/app/backup.json $THIS_DIR/backup.json
 }
@@ -49,7 +50,10 @@ cmd_clean_bang() { docker system prune --all --force; }
 #
 cmd_clone() { git clone git@github.com:patrick-melo/myipc.git ; }
 
-cmd_commit() { docker commit  -m "Initialized $(date)" myipcio-web-1 myipcio-web-1 ; }
+cmd_commit() { 
+    echo "=> commit"
+    docker commit  -m "Initialized $(date)" myipcio-web-1 myipcio-web-1
+}
 
 cmd_conf() { awk -F\" '/'$2'/ {print $2}' $1 ;}
 
@@ -104,7 +108,7 @@ cmd_init() {
     inst=$1
     [ -z "$inst" ] && usage "init ['dev'|'prd']"
 
-    echo "=> init $env (5m)"
+    echo "=> init $inst (5m)"
     cd $THIS_DIR
     docker cp react/src/config.$inst.js myipcio-web-1:/usr/app/react/src/config.js
     cmd_init_web
@@ -150,7 +154,7 @@ cmd_make() {
 cmd_open() { 
     case $1 in
     dev) open http://localhost/ ;;
-    prd) open http://myipc-prd-880583870.us-west-1.elb.amazonaws.com/2832 ;;
+    prd) open https://www.myipc.io/ ;;
     *) usage "m open ['dev'|'prd']"
     esac
 }

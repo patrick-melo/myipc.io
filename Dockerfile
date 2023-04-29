@@ -1,4 +1,5 @@
-FROM node:16.15.0
+# The platform option fixes `exec /usr/local/bin/docker-entrypoint.sh: exec format error` error in ECS
+FROM --platform=linux/amd64 node:16.15.0
 ENV NODE_ENV=production
 
 WORKDIR /usr/app
