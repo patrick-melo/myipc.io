@@ -119,6 +119,11 @@ cmd_init() {
     cmd_commit
 }
 
+#+       ip
+#+              Display the public IP of this machine.
+#+
+cmd_ip() { curl http://checkip.amazonaws.com/ ; }
+
 cmd_init_web() {
     echo "=> init web"
     cmd_sh web '
@@ -277,6 +282,7 @@ main() {
         help) cmd_help "$@" ;;
         history) cmd_history "$@" ;;
         init) cmd_init "$@" ;;
+        ip) cmd_ip "$@" ;;
         login) cmd_login "$@" ;;
         make) cmd_make "$@" ;;
         open) cmd_open "$@" ;;
