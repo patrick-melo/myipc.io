@@ -132,6 +132,7 @@ cmd_init_web() {
         npm run build &&\
         mv build/index.html build/main.html &&\
         mkdir build/sprites
+        mkdir build/cards
     '
 }
 

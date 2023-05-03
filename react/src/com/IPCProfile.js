@@ -113,7 +113,7 @@ function IPCEconomics(props)
     <Table>
       <Column>
         <T sx={style.value}>{ props.price }</T>
-        <T sx={style.caption}>Asking Price</T>
+        <T sx={style.caption}>Claim Price</T>
       </Column>
       <Column>
         <T sx={style.value}>{ props.gold  }</T>
