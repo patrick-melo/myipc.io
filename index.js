@@ -46,8 +46,8 @@ async function callTokenId(req, res) {
   }
 
   let ipc = await IPCDBLib.ipcdb_select_ipc(session, token_id);
-  if (ipc == null) {
-
+  if (ipc == null) 
+  {
     ipc = await IPCDBLib.ipcdb_web3_adddb_ipc(session, token_id);
     if (ipc == null) {
 
@@ -59,6 +59,10 @@ async function callTokenId(req, res) {
       }
   }
   else await IPCDBLib.ipcdb_web3_updatedb_ipc(session, ipc);
+
+  //check for sprite
+  //check for IPC card
+  IPCDBLib.ipc_meta_errorCheck(ipc);
 
   session.client.end();
   res.send(JSON.stringify({status_label: "IPCDB_SUCCESS", responce: ipc}));
