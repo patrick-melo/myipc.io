@@ -59,12 +59,11 @@ async function callTokenId(req, res) {
       }
   }
   else await IPCDBLib.ipcdb_web3_updatedb_ipc(session, ipc);
+  session.client.end();
 
-  //check for sprite
-  //check for IPC card
+  //check for sprite & card 
   IPCDBLib.ipc_meta_errorCheck(ipc);
 
-  session.client.end();
   res.send(JSON.stringify({status_label: "IPCDB_SUCCESS", responce: ipc}));
 };
 
