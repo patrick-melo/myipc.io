@@ -37,7 +37,7 @@ const start = async function(){
         let filenameGIF = ipc_in_db[0]; 
         filenameGIF = await fsA.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
 
-        console.error(filenameGIF);
+        console.error( ipc_in_db[0] +" : "+ filenameGIF);
 
         try 
         {
@@ -62,22 +62,22 @@ const start = async function(){
         
         
         //check for cards
-        let filenameCard = id; 
+        //let filenameCard = id; 
         //filenameCard = await fs.access(IPCCard.IPCCARD_DIR + filenameCard + ".jpg")
         //    .then(res => filenameCard).catch(err => "");
         
-        if (filenameGIF == "" || filenameCard == "")
+        //if (filenameGIF == "" || filenameCard == "")
         {
             //let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
             
-            if(filenameGIF == "" && ipc != null)
+            //if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
                 //console.log(" Generating IPC gif: " +id);
                 //await IPCGif.ipcgif_store(ipc);
             }
 
-            if (filenameCard == "" && ipc != null)
+            //if (filenameCard == "" && ipc != null)
             {
                 //generate ipc card
                 //console.log("Generating IPC card: " +id);
