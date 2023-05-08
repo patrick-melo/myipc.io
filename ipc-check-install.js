@@ -55,12 +55,14 @@ const start = async function(){
                 .then(res => res.rows)
                 .catch(err => null);
         
-            let ipc = IPCDBLib.ipcdb_array_to_ipc(ipc_row);
+            let ipc = IPCDBLib.ipcdb_array_to_ipc(ipc_row[0]);
+
+            /*
 
             console.log(ipc_row[0]);
             console.log(ipc_row[1]);
 
-            /*
+            
             console.log(ipc.name);
             console.log(ipc.attribute_seed);
             console.log(ipc.dna);
