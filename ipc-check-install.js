@@ -31,12 +31,13 @@ const start = async function(){
 
     ipc_in_db = rows;
 
-    for (let id in ipc_in_db) 
+    //for (let id in ipc_in_db) 
     {
         //check for sprites
-        let filenameGIF = id; 
-        //filenameGIF = await fs.access(IPCGif.IPCGIF_DIR + filenameGIF + ".gif")
-                //.then(res => filenameGIF).catch(err => "");
+        let filenameGIF = ipc_in_db[0]; 
+        filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
+
+        console.error(filenameGIF);
 
         try 
         {
