@@ -55,18 +55,13 @@ const start = async function(){
                 .then(res => res.rows)
                 .catch(err => null);
         
-            if (ipc_row == null)
-            {
-                //IPCDBLib.ipcdb_error("IPCDB_DBIPCLIST_ERROR");
-                //return null;
-            }
             console.log("ipc db : " +ipc_row);
 
 
             if(filenameGIF == "" && ipc_row != null)
             {
                 //Generate ipc gif
-                console.log(" Generating IPC gif: " +ipc_id);
+                console.log("Generating IPC gif: " +ipc_id);
                 await IPCGif.ipcgif_store(ipc_row);
             }
 
@@ -74,6 +69,7 @@ const start = async function(){
             {
                 //generate ipc card
                 console.log("Generating IPC card: " +ipc_id);
+                ipc_row.meta.sprite = ipc_id;
                 await IPCCard.ipccard_store(ipc_row);
             }
 
