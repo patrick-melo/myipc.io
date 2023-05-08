@@ -61,9 +61,6 @@ async function callTokenId(req, res) {
   else await IPCDBLib.ipcdb_web3_updatedb_ipc(session, ipc);
   session.client.end();
 
-  //check for sprite & card 
-  IPCDBLib.ipc_meta_errorCheck(ipc);
-
   res.send(JSON.stringify({status_label: "IPCDB_SUCCESS", responce: ipc}));
 };
 
@@ -260,6 +257,12 @@ function main() {
 
   server.listen(80);
   console.log("Starting myipc.io on port 80...");
+}
+
+async function ipc_meta_errorCheck(ipc)
+{
+    await IPCGif.ipcgif_store(ipc);
+    await IPCCard.ipccard_store(ipc);
 }
 
 main();
