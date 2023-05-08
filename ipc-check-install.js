@@ -33,7 +33,6 @@ const start = async function(){
 
     for (let id in ipc_in_db) 
     {
-        console.log("IPC : " +ipc_in_db[id]);
         let ipc_id = ipc_in_db[id];
 
         //check for sprites
@@ -46,23 +45,36 @@ const start = async function(){
         
         if (filenameGIF == "" || filenameCard == "")
         {
-            
-            let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_id);
-            console.log("ipc db : " +ipc);
+            console.log("IPC : " +ipc_in_db[id]);
+
+            //let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_id);
+            query = "SELECT * FROM ipc_list WHERE token_id = " +ipc_in_db[id];
+
+            let ipc_row =  await client.query(
+                { text: query, rowMode: "array" })
+                .then(res => ipc_row)
+                .catch(err => null);
+        
+            if (ipc_row == null)
+            {
+                //IPCDBLib.ipcdb_error("IPCDB_DBIPCLIST_ERROR");
+                //return null;
+            }
+            console.log("ipc db : " +ipc_row);
 
 
-            if(filenameGIF == "" && ipc != null)
+            if(filenameGIF == "" && ipc_row != null)
             {
                 //Generate ipc gif
                 console.log(" Generating IPC gif: " +ipc_id);
-                await IPCGif.ipcgif_store(ipc);
+                await IPCGif.ipcgif_store(ipc_row);
             }
 
-            if (filenameCard == "" && ipc != null)
+            if (filenameCard == "" && ipc_row != null)
             {
                 //generate ipc card
                 console.log("Generating IPC card: " +ipc_id);
-                await IPCCard.ipccard_store(ipc);
+                await IPCCard.ipccard_store(ipc_row);
             }
         }
 
