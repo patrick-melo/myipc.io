@@ -34,10 +34,10 @@ const start = async function(){
     //for (let id in ipc_in_db) 
     {
         //check for sprites
-        let filenameGIF = ipc_in_db[0]; 
+        let filenameGIF = ipc_in_db[233]; 
         filenameGIF = await fsA.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
 
-        console.error( ipc_in_db[0] +" : "+ filenameGIF);
+        console.error( ipc_in_db[233] +" : "+ filenameGIF);
 
         try 
         {
