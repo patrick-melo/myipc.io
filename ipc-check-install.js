@@ -34,28 +34,28 @@ const start = async function(){
     for (let id in ipc_in_db) 
     {
         //check for sprites
-        let filenameGIF = id; 
+        let filenameGIF = ipc_in_db[id]; 
         filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
         
         //check for cards
-        let filenameCard = id; 
+        let filenameCard = ipc_in_db[id]; 
         filenameCard = await fs.access("react/build/cards/" + filenameCard + ".jpg").then(res => filenameCard).catch(err => "");
         
         if (filenameGIF == "" || filenameCard == "")
         {
-            let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
+            let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_in_db[id]);
             
             if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
-                console.log(" Generating IPC gif: " +id);
+                console.log(" Generating IPC gif: " +ipc_in_db[id]);
                 await IPCGif.ipcgif_store(ipc);
             }
 
             if (filenameCard == "" && ipc != null)
             {
                 //generate ipc card
-                console.log("Generating IPC card: " +id);
+                console.log("Generating IPC card: " +ipc_in_db[id]);
                 await IPCCard.ipccard_store(ipc);
             }
         }
