@@ -76,9 +76,11 @@ const start = async function(){
                 console.log("Generating IPC card: " +ipc_id);
                 await IPCCard.ipccard_store(ipc_row);
             }
+
+            console.log("--------------------");
         }
 
-        console.log("--------------------");
+        
 
     }
 
