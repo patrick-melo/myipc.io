@@ -33,8 +33,7 @@ const start = async function(){
 
     for (let id in ipc_in_db) 
     {
-        console.log("IPC : " +ipc_in_db[id]);
-
+        
         //check for sprites
         let filenameGIF = ipc_in_db[id]; 
         filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
@@ -42,6 +41,11 @@ const start = async function(){
         //check for cards
         let filenameCard = ipc_in_db[id]; 
         filenameCard = await fs.access("react/build/cards/" + filenameCard + ".jpg").then(res => filenameCard).catch(err => "");
+
+        console.log("filenameGIF : " +filenameGIF);
+        console.log("filenameCard : " +filenameCard);
+
+        console.log("--------------------");
         
         if (filenameGIF == "" || filenameCard == "")
         {
