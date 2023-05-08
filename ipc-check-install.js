@@ -71,7 +71,7 @@ const start = async function()
                 }
                 else
                 {
-                    console.log("GENERATED : " +result +".gif");
+                    //console.log("GENERATED : " +result +".gif");
                 }
             }
 
@@ -86,7 +86,7 @@ const start = async function()
                 }
                 else
                 {
-                    console.log("GENERATED : " +result +".jpg");
+                    //console.log("GENERATED : " +result +".jpg");
                 }
                 
             }
@@ -97,7 +97,7 @@ const start = async function()
 
     }
 
-    //console.log(rows);
+    console.log("CHECK COMPLETE");
     process.exit();
 }
 
