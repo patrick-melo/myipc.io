@@ -47,7 +47,7 @@ const start = async function(){
         if (filenameGIF == "" || filenameCard == "")
         {
             
-            let ipc = await IPCDBLib.ipcdb_sefinlect_ipc(session, ipc_id);
+            let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_id);
             console.log("ipc db : " +ipc);
 
 
