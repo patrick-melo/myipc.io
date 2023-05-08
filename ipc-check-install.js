@@ -1,4 +1,4 @@
-//const fs = require('fs').promises;
+const fsA = require('fs').promises;
 const fs = require('fs');
 const IPCDBLib = require("./lib/ipcdb-lib.js");
 const IPCGif = require("./lib/ipc-gif.js");
@@ -35,7 +35,7 @@ const start = async function(){
     {
         //check for sprites
         let filenameGIF = ipc_in_db[0]; 
-        filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
+        filenameGIF = await fsA.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
 
         console.error(filenameGIF);
 
