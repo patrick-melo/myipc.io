@@ -64,14 +64,29 @@ const start = async function()
             {
                 //Generate ipc gif
                 let result = await IPCGif.ipcgif_store(ipc);
-                console.log("Generated : " +result +".gif");
+                if(result == "")
+                {
+                    console.log("ERROR GENERATING " +GIF_DIR+result+".gif");
+                }
+                else
+                {
+                    console.log("GENERATED : " +result +".gif");
+                }
             }
 
             if (filenameCard == "")
             {
                 //generate ipc card
                 let result = await IPCCard.ipccard_store(ipc);
-                console.log("Generated : " +result +".jpg");
+                if(result == "")
+                {
+                    console.log("ERROR GENERATING " +CARD_DIR+result+".jpg");
+                }
+                else
+                {
+                    console.log("GENERATED : " +result +".jpg");
+                }
+                
             }
 
         }
