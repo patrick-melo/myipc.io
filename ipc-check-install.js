@@ -52,7 +52,7 @@ const start = async function(){
 
             let ipc_row =  await client.query(
                 { text: query, rowMode: "array" })
-                .then(res => ipc_row)
+                .then(res => res.rows)
                 .catch(err => null);
         
             if (ipc_row == null)
