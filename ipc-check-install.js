@@ -69,7 +69,8 @@ const start = async function(){
             {
                 //generate ipc card
                 console.log("Generating IPC card: " +ipc_id);
-                ipc_row.meta["sprite"] = ipc_id;
+                console.log("Meta : " +ipc_row.meta.sprite);
+                //ipc_row.meta["sprite"] = ipc_id;
                 await IPCCard.ipccard_store(ipc_row);
             }
 
