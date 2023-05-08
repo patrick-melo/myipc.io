@@ -46,14 +46,14 @@ const start = async function(){
         {
             let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
             
-            if(filenameGIF == "")
+            if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
                 console.log(" Generating IPC gif: " +id);
                 await IPCGif.ipcgif_store(ipc);
             }
 
-            if (filenameCard == "")
+            if (filenameCard == "" && ipc != null)
             {
                 //generate ipc card
                 console.log("Generating IPC card: " +id);
