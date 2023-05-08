@@ -1,4 +1,4 @@
-
+const fs = require('fs').promises;
 const IPCDBLib = require("./lib/ipcdb-lib.js");
 const IPCGif = require("./lib/ipc-gif.js");
 const IPCCard = require("./lib/ipc-card.js");
