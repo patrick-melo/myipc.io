@@ -43,11 +43,16 @@ const start = async function(){
             if (fs.existsSync(IPCGif.IPCGIF_DIR + filenameGIF + ".gif"))
             {
                 //file exists
+                console.log("Exists -> IPC gif: " +filenameGIF);
+            }
+            else
+            {
+                console.log("Absent -> IPC gif: " +filenameGIF);
             }
         } 
         catch(err) 
         {
-            console.log("IPC gif: " +filenameGIF);
+            console.log("Error -> IPC gif: " +filenameGIF);
             console.error(err);
 
         }
