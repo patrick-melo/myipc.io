@@ -1,7 +1,7 @@
 
 const IPCDBLib = require("./lib/ipcdb-lib.js");
-const IPCGif = require("./ipc-gif.js");
-const IPCCard = require("./ipc-card.js");
+const IPCGif = require("./lib/ipc-gif.js");
+const IPCCard = require("./lib/ipc-card.js");
 
 const start = async function(){
     let session = await IPCDBLib.ipcdb_connect();
