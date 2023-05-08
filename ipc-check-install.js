@@ -67,6 +67,7 @@ const start = async function()
                 if(result == "")
                 {
                     console.log("ERROR GENERATING " +GIF_DIR+result+".gif");
+                    process.exit();
                 }
                 else
                 {
@@ -81,6 +82,7 @@ const start = async function()
                 if(result == "")
                 {
                     console.log("ERROR GENERATING " +CARD_DIR+result+".jpg");
+                    process.exit();
                 }
                 else
                 {
