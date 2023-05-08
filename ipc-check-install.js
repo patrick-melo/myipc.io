@@ -50,14 +50,14 @@ const start = async function(){
             {
                 //Generate ipc gif
                 console.log(" Generating IPC gif: " +id);
-                ipc.meta.sprite = await IPCGif.ipcgif_store(ipc);
+                await IPCGif.ipcgif_store(ipc);
             }
 
             if (filenameCard == "")
             {
                 //generate ipc card
                 console.log("Generating IPC card: " +id);
-                ipc.meta.card = await IPCCard.ipccard_store(ipc);
+                await IPCCard.ipccard_store(ipc);
             }
         }
 
