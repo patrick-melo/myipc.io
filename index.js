@@ -259,10 +259,4 @@ function main() {
   console.log("Starting myipc.io on port 80...");
 }
 
-async function ipc_meta_errorCheck(ipc)
-{
-    await IPCGif.ipcgif_store(ipc);
-    await IPCCard.ipccard_store(ipc);
-}
-
 main();
