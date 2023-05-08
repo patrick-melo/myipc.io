@@ -57,8 +57,10 @@ const start = async function(){
         
             let ipc = IPCDBLib.ipcdb_array_to_ipc(ipc_row);
 
-            console.log(ipc.id);
-            console.log(ipc.token_id);
+            console.log(ipc_row[0]);
+            console.log(ipc_row[1]);
+
+            /*
             console.log(ipc.name);
             console.log(ipc.attribute_seed);
             console.log(ipc.dna);
@@ -93,7 +95,7 @@ const start = async function(){
 
 
             
-            /*
+            
             ipc.id = parseInt(rows[0]);
             ipc.token_id = parseInt(rows[1]);
             ipc.name = rows[2];
