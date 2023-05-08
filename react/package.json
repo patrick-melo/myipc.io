@@ -11,7 +11,6 @@
     "@walletconnect/client": "^1.7.8",
     "@walletconnect/qrcode-modal": "^1.7.8",
     "install": "^0.13.0",
-    "jsx-runtime": "^1.2.0",
     "metamask": "^0.0.1-security",
     "npm": "^8.12.1",
     "qr-scanner": "^1.4.1",
