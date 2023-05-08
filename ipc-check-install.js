@@ -40,7 +40,7 @@ const start = async function(){
 
         try 
         {
-            if (fs.existsSync(IPCGif.IPCGIF_DIR + filenameGIF + ".gif"))
+            if (fs.existsSync("react/build/sprites/" + filenameGIF + ".gif"))
             {
                 //file exists
                 console.log("Exists -> IPC gif: " +filenameGIF);
