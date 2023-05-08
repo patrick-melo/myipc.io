@@ -66,7 +66,7 @@ const start = async function()
                 let result = await IPCGif.ipcgif_store(ipc);
                 if(result == "")
                 {
-                    console.log("ERROR GENERATING " +GIF_DIR+result+".gif");
+                    console.log("ERROR GENERATING " +GIF_DIR+ipc.token_id+".gif");
                     process.exit();
                 }
                 else
@@ -81,7 +81,7 @@ const start = async function()
                 let result = await IPCCard.ipccard_store(ipc);
                 if(result == "")
                 {
-                    console.log("ERROR GENERATING " +CARD_DIR+result+".jpg");
+                    console.log("ERROR GENERATING " +CARD_DIR+pc.token_id+".jpg");
                     process.exit();
                 }
                 else
