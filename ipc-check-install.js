@@ -57,7 +57,7 @@ const start = async function(){
         
             console.log("ipc db : " +ipc_row);
 
-            let ipc = ipcdb_array_to_ipc(ipc_row);
+            let ipc = IPCDBLib.ipcdb_array_to_ipc(ipc_row);
 
             console.log("ipc : " +ipc);
 
