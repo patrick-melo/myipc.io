@@ -33,7 +33,8 @@ const start = async function(){
 
     for (let id in ipc_in_db) 
     {
-        
+        console.log("IPC : " +ipc_in_db[id]);
+
         //check for sprites
         let filenameGIF = ipc_in_db[id]; 
         filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
@@ -45,12 +46,14 @@ const start = async function(){
         console.log("filenameGIF : " +filenameGIF);
         console.log("filenameCard : " +filenameCard);
 
-        console.log("--------------------");
+       
         
         if (filenameGIF == "" || filenameCard == "")
         {
             let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_in_db[id]);
-            
+            console.log("ipc db : " +ipc);
+
+
             if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
@@ -65,6 +68,8 @@ const start = async function(){
                 await IPCCard.ipccard_store(ipc);
             }
         }
+
+        console.log("--------------------");
 
     }
 
