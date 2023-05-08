@@ -57,21 +57,24 @@ const start = async function(){
         
             console.log("ipc db : " +ipc_row);
 
+            let ipc = ipcdb_array_to_ipc(ipc_row);
+
+            console.log("ipc : " +ipc);
+
 
             if(filenameGIF == "" && ipc_row != null)
             {
                 //Generate ipc gif
                 console.log("Generating IPC gif: " +ipc_id);
-                await IPCGif.ipcgif_store(ipc_row);
+                await IPCGif.ipcgif_store(ipc);
             }
 
             if (filenameCard == "" && ipc_row != null)
             {
                 //generate ipc card
                 console.log("Generating IPC card: " +ipc_id);
-                console.log("Meta : " +ipc_row.meta);
                 //ipc_row.meta["sprite"] = ipc_id;
-                await IPCCard.ipccard_store(ipc_row);
+                await IPCCard.ipccard_store(ipc);
             }
 
             console.log("--------------------");
