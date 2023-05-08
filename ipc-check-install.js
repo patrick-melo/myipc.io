@@ -34,18 +34,34 @@ const start = async function(){
     {
         //check for sprites
         let filenameGIF = id; 
-        filenameGIF = await fs.access(IPCGif.IPCGIF_DIR + filenameGIF + ".gif")
-        .then(res => filenameGIF).catch(err => "");
-        console.log("IPC gif: " +filenameGIF);
+        //filenameGIF = await fs.access(IPCGif.IPCGIF_DIR + filenameGIF + ".gif")
+                //.then(res => filenameGIF).catch(err => "");
+
+        try 
+        {
+            if (fs.existsSync(IPCGif.IPCGIF_DIR + filenameGIF + ".gif"))
+            {
+                //file exists
+            }
+        } 
+        catch(err) 
+        {
+            console.log("IPC gif: " +filenameGIF);
+            console.error(err);
+
+        }
+
+
+        
         
         //check for cards
         let filenameCard = id; 
-        filenameCard = await fs.access(IPCCard.IPCCARD_DIR + filenameCard + ".jpg")
-            .then(res => filenameCard).catch(err => "");
+        //filenameCard = await fs.access(IPCCard.IPCCARD_DIR + filenameCard + ".jpg")
+        //    .then(res => filenameCard).catch(err => "");
         
         if (filenameGIF == "" || filenameCard == "")
         {
-            let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
+            //let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
             
             if(filenameGIF == "" && ipc != null)
             {
