@@ -81,7 +81,7 @@ const start = async function()
                 let result = await IPCCard.ipccard_store(ipc);
                 if(result == "")
                 {
-                    console.log("ERROR GENERATING " +CARD_DIR+pc.token_id+".jpg");
+                    console.log("ERROR GENERATING " +CARD_DIR+ipc.token_id+".jpg");
                     process.exit();
                 }
                 else
