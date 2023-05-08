@@ -36,6 +36,7 @@ const start = async function(){
         let filenameGIF = id; 
         filenameGIF = await fs.access(IPCGif.IPCGIF_DIR + filenameGIF + ".gif")
         .then(res => filenameGIF).catch(err => "");
+        console.log("IPC gif: " +filenameGIF);
         
         //check for cards
         let filenameCard = id; 
@@ -49,15 +50,15 @@ const start = async function(){
             if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
-                console.log(" Generating IPC gif: " +id);
-                await IPCGif.ipcgif_store(ipc);
+                //console.log(" Generating IPC gif: " +id);
+                //await IPCGif.ipcgif_store(ipc);
             }
 
             if (filenameCard == "" && ipc != null)
             {
                 //generate ipc card
-                console.log("Generating IPC card: " +id);
-                await IPCCard.ipccard_store(ipc);
+                //console.log("Generating IPC card: " +id);
+                //await IPCCard.ipccard_store(ipc);
             }
         }
 
