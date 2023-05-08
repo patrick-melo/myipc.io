@@ -60,7 +60,7 @@ const start = async function(){
             if(filenameGIF == "" && ipc_row != null)
             {
                 //Generate ipc gif
-                console.log("Generating IPC gif: " +ipc_id);
+                console.log("Generating IPC gif: " +ipc.token_id);
                 let result = await IPCGif.ipcgif_store(ipc);
                 console.log("Generated IPC gif: " +result);
             }
