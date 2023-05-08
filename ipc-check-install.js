@@ -34,13 +34,14 @@ const start = async function(){
     for (let id in ipc_in_db) 
     {
         console.log("IPC : " +ipc_in_db[id]);
+        let ipc_id = ipc_in_db[id];
 
         //check for sprites
-        let filenameGIF = ipc_in_db[id]; 
+        let filenameGIF = ipc_id; 
         filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
         
         //check for cards
-        let filenameCard = ipc_in_db[id]; 
+        let filenameCard = ipc_id; 
         filenameCard = await fs.access("react/build/cards/" + filenameCard + ".jpg").then(res => filenameCard).catch(err => "");
 
         console.log("filenameGIF : " +filenameGIF);
@@ -50,21 +51,22 @@ const start = async function(){
         
         if (filenameGIF == "" || filenameCard == "")
         {
-            let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
+            
+            let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_id);
             console.log("ipc db : " +ipc);
 
 
             if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
-                console.log(" Generating IPC gif: " +ipc_in_db[id]);
+                console.log(" Generating IPC gif: " +ipc_id);
                 await IPCGif.ipcgif_store(ipc);
             }
 
             if (filenameCard == "" && ipc != null)
             {
                 //generate ipc card
-                console.log("Generating IPC card: " +ipc_in_db[id]);
+                console.log("Generating IPC card: " +ipc_id);
                 await IPCCard.ipccard_store(ipc);
             }
         }
