@@ -4,11 +4,11 @@ const IPCGif = require("./ipc-gif.js");
 const IPCCard = require("./ipc-card.js");
 
 
-let session = await ipcdb_connect();
+let session = await IPCDBLib.ipcdb_connect();
 if (session == null)
 {
     console.log("IPCDB_RESTOREDB_FAILED_1");
-    ipcdb_error("IPCDB_RESTOREDB_FAILED");
+    IPCDBLib.ipcdb_error("IPCDB_RESTOREDB_FAILED");
 
     process.exit();
     return IPCDB_ERROR;
@@ -24,7 +24,7 @@ let rows =  await client.query(
 
 if (rows == null)
 {
-    ipcdb_error("IPCDB_DBIPCLIST_ERROR");
+    IPCDBLib.ipcdb_error("IPCDB_DBIPCLIST_ERROR");
     return null;
 }
 
