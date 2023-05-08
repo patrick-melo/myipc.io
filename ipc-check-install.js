@@ -1,5 +1,5 @@
-const fsA = require('fs').promises;
-const fs = require('fs');
+const fs = require('fs').promises;
+
 const IPCDBLib = require("./lib/ipcdb-lib.js");
 const IPCGif = require("./lib/ipc-gif.js");
 const IPCCard = require("./lib/ipc-card.js");
@@ -31,63 +31,39 @@ const start = async function(){
 
     ipc_in_db = rows;
 
-    //for (let id in ipc_in_db) 
+    for (let id in ipc_in_db) 
     {
         //check for sprites
-        let filenameGIF = ipc_in_db[233]; 
-        filenameGIF = await fsA.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
-
-        console.error( ipc_in_db[233] +" : "+ filenameGIF);
-
-        try 
-        {
-            if (fs.existsSync("react/build/sprites/" + filenameGIF + ".gif"))
-            {
-                //file exists
-                console.log("Exists -> IPC gif: " +filenameGIF);
-            }
-            else
-            {
-                console.log("Absent -> IPC gif: " +filenameGIF);
-            }
-        } 
-        catch(err) 
-        {
-            console.log("Error -> IPC gif: " +filenameGIF);
-            console.error(err);
-
-        }
-
-
-        
+        let filenameGIF = id; 
+        filenameGIF = await fs.access("react/build/sprites/" + filenameGIF + ".gif").then(res => filenameGIF).catch(err => "");
         
         //check for cards
-        //let filenameCard = id; 
-        //filenameCard = await fs.access(IPCCard.IPCCARD_DIR + filenameCard + ".jpg")
-        //    .then(res => filenameCard).catch(err => "");
+        let filenameCard = id; 
+        filenameCard = await fs.access("react/build/cards/" + filenameCard + ".jpg").then(res => filenameCard).catch(err => "");
         
-        //if (filenameGIF == "" || filenameCard == "")
+        if (filenameGIF == "" || filenameCard == "")
         {
-            //let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
+            let ipc = await IPCDBLib.ipcdb_select_ipc(session, id);
             
-            //if(filenameGIF == "" && ipc != null)
+            if(filenameGIF == "" && ipc != null)
             {
                 //Generate ipc gif
-                //console.log(" Generating IPC gif: " +id);
-                //await IPCGif.ipcgif_store(ipc);
+                console.log(" Generating IPC gif: " +id);
+                await IPCGif.ipcgif_store(ipc);
             }
 
-            //if (filenameCard == "" && ipc != null)
+            if (filenameCard == "" && ipc != null)
             {
                 //generate ipc card
-                //console.log("Generating IPC card: " +id);
-                //await IPCCard.ipccard_store(ipc);
+                console.log("Generating IPC card: " +id);
+                await IPCCard.ipccard_store(ipc);
             }
         }
 
     }
 
     //console.log(rows);
+    process.exit();
 }
 
 start();
