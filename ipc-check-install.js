@@ -42,17 +42,12 @@ const start = async function(){
         
         //check for cards
         let filenameCard = ipc_id; 
-        filenameCard = await fs.access("react/build/cards/" + filenameCard + ".jpg").then(res => filenameCard).catch(err => "");
-
-        console.log("filenameGIF : " +filenameGIF);
-        console.log("filenameCard : " +filenameCard);
-
-       
+        filenameCard = await fs.access("react/build/cards/" + filenameCard + ".jpg").then(res => filenameCard).catch(err => "");   
         
         if (filenameGIF == "" || filenameCard == "")
         {
             
-            let ipc = await IPCDBLib.ipcdb_select_ipc(session, ipc_id);
+            let ipc = await IPCDBLib.ipcdb_sefinlect_ipc(session, ipc_id);
             console.log("ipc db : " +ipc);
 
 
