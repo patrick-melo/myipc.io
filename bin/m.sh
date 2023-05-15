@@ -288,7 +288,7 @@ main() {
         make) cmd_make "$@" ;;
         open) cmd_open "$@" ;;
         php) cmd_php "$@" ;;
-        psql) cmd_psql "$@" ;;
+        psql|sql) cmd_psql "$@" ;;
         pull) cmd_pull "$@" ;;
         pullfile) cmd_pullfile "$@" ;;
         pushfile) cmd_pushfile "$@" ;;
