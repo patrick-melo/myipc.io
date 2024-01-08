@@ -17,6 +17,7 @@ services:
             #- /usr/app/node_modules
         environment:
             DATABASE_URL: postgres://postgres@postgres/postgres
+            #API_KEY:
         networks:
             main:
                 aliases:

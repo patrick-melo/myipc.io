@@ -18,6 +18,6 @@ RUN npm install -g \
 RUN cd /usr/app && npm install
 
 # Build react
-RUN cp react/src/config.dev.js react/src/config.js
+RUN bin/m.sh init reactlocal
 
-CMD [ "/usr/app/start.sh" ]
+CMD [ "node", "index" ]

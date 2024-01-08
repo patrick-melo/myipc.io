@@ -3,10 +3,10 @@ const SECONDS_DAY = 86400;
 const config = {
 
     VERSION: "1.201",
-    IPCDB_USERNAME: "username",
-    IPCDB_PASSWORD: "password",
-    IPCDB_DATABASE: "database",
-    IPCDB_HOST: "127.0.0.1",
+    IPCDB_USERNAME: "postgres",
+    IPCDB_PASSWORD: "postgres",
+    IPCDB_DATABASE: "myipc",
+    IPCDB_HOST: "postgres",
     IPCDB_PORT: 5432,
 
     IPCDB_WEB3_PROVIDER: "https://eth-mainnet.alchemyapi.io/v2/{API_KEY}",
@@ -17,7 +17,7 @@ const config = {
 
     IPC_LIST_LIMIT: 24,
 
-    DEVELOPMENT_MODE: 1,
+    DEVELOPMENT_MODE: 0,
 
     PRODUCTION_DIR: "react/build/", 
     PUBLIC_ROOT: "/",
@@ -26,9 +26,9 @@ const config = {
     walletConnect: {zIndex: 9998}
 
     // The following will be deprecated soon.
-    public_url: "",
-    backend_url: "",
-    BACKEND_ROOT: "",
+    // public_url: "",
+    // backend_url: "",
+    // BACKEND_ROOT: "",
 };
 
 config.public_url = config.PUBLIC_ROOT;
