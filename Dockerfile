@@ -6,18 +6,14 @@ WORKDIR /usr/app
 
 COPY . .
 
-# Install vi (for debugging)
-RUN apt-get update && apt-get install -y \
-    vim
-
-# Install dependencies
-RUN apt-get install -y libsdl-pango-dev
+# Install system dependencies
+RUN apt-get update && apt-get install -y libsdl-pango-dev
 RUN npm install -g \
     npm@9.1.3 \
     react-scripts
-RUN cd /usr/app && npm install
 
 # Build react
 RUN bin/m.sh init reactlocal
 
-CMD [ "node", "index" ]
+# Use a script so that we can change what gets run without rebuilding.
+ENTRYPOINT [ "/usr/app/start.sh" ]

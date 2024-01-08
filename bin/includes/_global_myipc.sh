@@ -28,13 +28,14 @@ cmd_init() { cmd init "$@"; }
 #+       init react   Init react from within the docker container
 #
 cmd_init_react() {
-    echo "=> init web"
-    cmd_sh web 'bin/m.sh init weblocal'
+    echo "=> init react"
+    cmd_sh web 'bin/m.sh init reactlocal'
 }
 
 #+       init react   Init react from the host os
 #
 cmd_init_reactlocal() {
+    npm install
     cd react &&\
         cp src/_config.js src/config.js &&\
         npm install jsx-runtime &&\
@@ -43,7 +44,7 @@ cmd_init_reactlocal() {
         mkdir build/sprites &&\
         mkdir build/cards &&\
         cd build &&\
-        tar xvf ../../sprites.tgz
+        tar xf ../../sprites.tgz
 }
 
 #+       init react   Create a tar.gz file with sprites to commit to the repo.

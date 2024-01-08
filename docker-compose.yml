@@ -13,11 +13,10 @@ services:
             - "2000:2000"
             - "3000:3000"
         #volumes:
-            #- .:/usr/app
-            #- /usr/app/node_modules
+        #    - .:/usr/app
         environment:
             DATABASE_URL: postgres://postgres@postgres/postgres
-            #API_KEY:
+            #START_COMMAND: "sleep 99999"
         networks:
             main:
                 aliases:

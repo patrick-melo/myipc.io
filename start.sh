@@ -1,7 +1,5 @@
 #!/bin/bash
 
-function prd() { node index ; }
-
 function debug() { sleep 999999999 ; }
 
 function dev() {
@@ -17,5 +15,8 @@ function dev() {
     cd /usr/app && node index
 }
 
-git describe --dirty | tee VERSION
-prd
+if [ ! -z "$START_COMMAND" ] ; then
+    $START_COMMAND
+else
+    node index
+fi
