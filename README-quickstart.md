@@ -1,5 +1,4 @@
 # Docker
-
 The server will be running on http://localhost. 
 
 Run these commands to start the server:
@@ -7,6 +6,40 @@ Run these commands to start the server:
     git clone git@github.com:patrick-melo/myipc.git
     cd myipc.io
     docker-compose up
+
+## Development
+To rebuild the sprites, you will need the M command (see above).
+
+When the server is built, it copies the source files into the docker image.
+To get the server to use the files in the repo instead, do the following
+
+1. Uncomment the following lines  in `docker-compose.yml`:
+
+        volumes:
+            - .:/usr/app
+
+            START_COMMAND: "sleep 999999999"
+
+2. Restart the container (`docker-compose up`)
+
+3. Run the following command to initialize react outside the container.
+
+    m init react
+
+4. Comment the following line in docker-compose.yml
+
+            START_COMMAND: "sleep 999999999"
+
+2. Restart the container (`docker-compose up`)
+
+# Unit tests
+Run the following command to run all unit tests:
+
+    npm test
+
+Run the following command to run a specific test file:
+
+    npm test psql.test.js
 
 # M command
 You can add an alias to the following to ~/.zshrc.
@@ -21,28 +54,16 @@ Run the following command to rebuild the sprites:
 
     m init sprites
 
-## Development
-To rebuild the sprites, you will need the M command (see above).
+# Shells
 
-When the server is built, it copies the source files into the docker image.
-To get the server to use the files in the repo instead, do the following
+Run the following command to start a shell in the web container:
 
-1. Stop the container (the one that was started with `docker-compose up`)
-2. Uncomment the following lines  in `docker-compose.yml`:
+    m bash web
 
-        volumes:
-            - .:/usr/app
+Run the following command to start a shell in the postgres container:
 
-            START_COMMAND: "sleep 99999"
+    m bash postgres
 
-3. Start the container (`docker-compose up`)
+Run the following command to start a pgsql shell:
 
-4. Run the following command to initialize react outside the container.
-
-    m init react
-
-5. Comment the following line in docker-compose.yml
-
-            START_COMMAND: "sleep 99999"
-
-6. Stop and start the container.
+    m psql

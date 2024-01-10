@@ -15,8 +15,8 @@ services:
         #volumes:
         #    - .:/usr/app
         environment:
-            DATABASE_URL: postgres://postgres@postgres/postgres
-            #START_COMMAND: "sleep 99999"
+            DATABASE_URL: $DATABASE_URL
+            # START_COMMAND: "sleep 999999999"
         networks:
             main:
                 aliases:
@@ -30,6 +30,7 @@ services:
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: postgres
             POSTGRES_DB: postgres
+            DATABASE_URL: $DATABASE_URL
         volumes:
             - ./data:/var/lib/postgresql/data
         networks:
