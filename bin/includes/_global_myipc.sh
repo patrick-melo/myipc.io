@@ -38,7 +38,6 @@ cmd_init_reactlocal() {
     npm install
     cd react &&\
         cp src/_config.js src/config.js &&\
-        npm install jsx-runtime &&\
         npm run build &&\
         mv build/index.html build/main.html &&\
         mkdir build/sprites &&\
