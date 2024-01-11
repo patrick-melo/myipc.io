@@ -38,12 +38,20 @@ cmd_init_reactlocal() {
     npm install
     cd react &&\
         cp src/_config.js src/config.js &&\
+        cmd_setversion &&
         npm run build &&\
         mv build/index.html build/main.html &&\
         mkdir build/sprites &&\
         mkdir build/cards &&\
         cd build &&\
         tar xf ../../sprites.tgz
+}
+
+cmd_setversion() {
+    pushd /usr/app
+    local version=$(git describe --dirty)
+    sed -i'' -e 's/VERSION: .*,/VERSION: "'$version'",/g' react/src/config.js
+    popd
 }
 
 #+       init react   Create a tar.gz file with sprites to commit to the repo.
