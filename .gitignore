@@ -9,3 +9,6 @@ data
 # react/src/config.dev.js
 react/src/config.prd.js
 VERSION
+
+# Mac OS generated files
+*.DS_Store

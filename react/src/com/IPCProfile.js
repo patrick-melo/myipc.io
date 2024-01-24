@@ -15,11 +15,20 @@ import UpdateIcon from '@mui/icons-material/Update';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import SearchIcon from '@mui/icons-material/Search';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import DoorBackIcon from '@mui/icons-material/DoorBack';
 
 import IPCWalletUI from '../lib/IPCWalletUI';
 
 import IPCInstance from '../lib/IPCInstance';
 import config from '../config';
+
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
+import Image from 'material-ui-image';
 
 const IPCContext = IPCInstance.IPCContext;
 
@@ -163,6 +172,13 @@ function getSearchWalletListener(navigate, wallet_address) {
   });
 }
 
+function getDungeonViewListener(navigate, wallet_address) {
+  return (() => {
+    window.scrollTo(0,0);
+    navigate(config.PUBLIC_ROOT + "dungeon=" + wallet_address);
+  });
+}
+
 export default function IPCProfile(props) {
 
   const instance = React.useContext(IPCContext);;
@@ -180,6 +196,17 @@ export default function IPCProfile(props) {
 
   const handleTipClose = () => {
     setTipOpen(false);
+  };
+
+  //ai popup Popup
+
+  const [openPopup, setOpenPopup] = React.useState(false);
+
+  const handleClickOpenPopup = () => {
+    setOpenPopup(true);
+  };
+  const handleClosePopup = () => {
+    setOpenPopup(false);
   };
 
   const style = {
@@ -259,6 +286,8 @@ export default function IPCProfile(props) {
 
   const HiddenClipboardInput = styled(ClipboardInput)(style.hidden_clipboard_input);
 
+  const aiImageUrl = "https://github.com/AnnEsther/IPC_Headshots/blob/main/Output/"+ipc.token_id+".png?raw=true";
+
   return (
     <Container sx={style.container}>
       <HiddenClipboardInput />
@@ -324,6 +353,45 @@ export default function IPCProfile(props) {
 
       </Tooltip>
       </ClickAwayListener>
+
+      <Button variant="contained" onClick={handleClickOpenPopup} sx={{margin: '8px 4px'}}>
+        IPC.AI.S1
+      </Button>
+      <Dialog
+        onClose={handleClosePopup}
+        aria-labelledby="customized-dialog-title"
+        open={openPopup}
+        maxWidth="sm"
+      >
+        <DialogContent style={{ overflow: "hidden" }}>
+          <div>
+            <IconButton
+              aria-label="close"
+              onClick={handleClosePopup}
+              sx={{
+                position: "absolute",
+                right: 0,
+                top: 0,
+                padding: 0,
+                color: (theme) => theme.palette.grey[500]
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Image style={{height: "512px", width: "512px" }} src={aiImageUrl} />
+          </div>
+
+        </DialogContent>
+      </Dialog>
+
+      <Button
+        variant="contained"
+        endIcon={<DoorBackIcon />}
+        onClick={getDungeonViewListener(instance.navigate, ipc.owner)}
+        sx={{margin: '8px 4px'}}>
+        View Dungeon
+      </Button>
+
       </Box>
     </Box>
     </Container>

@@ -50,3 +50,10 @@
   src: url('./fonts/Apple ][.ttf') format('truetype');
 }
 
+.game-container{
+  height: 85vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

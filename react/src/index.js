@@ -11,6 +11,7 @@ import {
 import QRCode from './layouts/QRCode.js';
 import Terminal from './layouts/Terminal.js';
 import DefaultRoute from './layouts/DefaultRoute.js';
+import DungeonExplorer from './layouts/DungeonExplorer.js'
 
 import IPCLib from './lib/IPCLib.js';
 import IPCEng from './lib/IPCEng.js';
@@ -28,6 +29,8 @@ function AppRoot(props) {
       <Routes>
         <Route path={config.BACKEND_ROOT} element={<DefaultRoute />}>
           <Route path=":value" element={<DefaultRoute />} />
+        </Route>
+        <Route path={config.BACKEND_ROOT + 'dungeon=:value'} element={<DungeonExplorer />}>
         </Route>
         <Route path={config.BACKEND_ROOT + 'qrcode'} element={<QRCode />} />
         <Route path={config.BACKEND_ROOT + 'edeccodolphin'} element={<Terminal />} />
