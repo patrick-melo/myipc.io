@@ -4,7 +4,7 @@ const config = {
 
     VERSION: "1.201",
 
-    IPCDB_WEB3_PROVIDER: "https://eth-mainnet.alchemyapi.io/v2/{API_KEY}",
+    IPCDB_WEB3_PROVIDER: "https://eth-mainnet.alchemyapi.io/v2/" + process.env.API_KEY,
     IPCDB_WEB3_CONTRACTADDR: "0x011C77fa577c500dEeDaD364b8af9e8540b808C0",
     IPCDB_WEB3_TIMEOUT: 1000,
 

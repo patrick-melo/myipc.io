@@ -37,6 +37,7 @@ cmd_init_react() {
 cmd_init_reactlocal() {
     npm install
     cd react &&\
+        npm install &&\
         cp src/_config.js src/config.js &&\
         cmd_setversion &&
         npm run build &&\
