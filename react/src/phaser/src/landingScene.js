@@ -4,7 +4,6 @@ import logoAnim from "../assets/sprites/logo_4X19.png";
 import logo from "../assets/sprites/logo.png";
 import gameConfig from "./gameConfig.js";
 import DungeonData from "./DungeonData.js";
-import config from "../../config.js";
 import mapData from "./map.json";
 import ErrorPopup from "./ErrorPopup.js";
 import btnClick from "../assets/Sounds/btnClick.wav";
@@ -78,7 +77,7 @@ export default class landingScene extends Phaser.Scene {
         //START REQUEST TO ETHERIUM WALLET
         const req = new XMLHttpRequest();
         req.addEventListener("load", this.reqListener, this);
-        req.open("GET", config.IPCDB_WEB3_PROVIDER + "/getNFTs?owner=" + gameConfig.currentAddress + "&contractAddresses[]=" +config.IPCDB_WEB3_CONTRACTADDR);
+        req.open("GET", gameConfig.public_root + "/wallet_address/" + gameConfig.currentAddress + "/group_index/0/group_limit/24");
         gameConfig.currentScene = this;
         req.send();
     
@@ -88,16 +87,6 @@ export default class landingScene extends Phaser.Scene {
                 this.logoAnim.anims.stop();
                 this.animationComplete = true;
                 this.updateSceneEnd(null);
-        
-                // this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                //     // var data = {
-                //     //     "loadScene" : "form"
-                //     // };
-                //     // this.scene.start('dungeon', null);
-                //     //this.scene.start('loading');
-                //     //this.scene.start('testing', { i : 0});
-                //     gameConfig.currentScene = this;
-                // });
         }, this);
 
     }
@@ -131,25 +120,27 @@ export default class landingScene extends Phaser.Scene {
         {
             // PARSE JSON
             result = JSON.parse(this.responseText);
-            
-            // GET ALL IPCs
-            for(var i = 0; i < result['ownedNfts'].length; i++)
+
+            if(result.status_label != "IPCDB_SUCCESS")
             {
-                // CHECK IF SMART CONTRACT MATCHES
-                //if(result['ownedNfts'][i]['contract']['address'].localeCompare(gameConfig.contractAdress) == 0)
-                {
-                    // PARSING IPC ID FROM HEX
-                    ownedIPCs.push(parseInt(result['ownedNfts'][i]['id']['tokenId'], 16));
-                }
+                gameConfig.currentScene.errorPopup.setText("Sorry, something went wrong. Please try again later.");
+                gameConfig.currentScene.errorPopup.setVisible(true);
             }
             // CHECK IF IPCs EXIST IN WALLET
-            if(ownedIPCs.length == 0)
+            else if(result.responce.ipc_total == 0)
             {
                 gameConfig.currentScene.errorPopup.setText("This wallet address doesn't own any NFT Immortal Player Characters. Please make sure you have the correct wallet address or acquire NFTs to access Immortal Player Characters.");
                 gameConfig.currentScene.errorPopup.setVisible(true);
             }
             else
             {
+
+                // GET ALL IPCs
+                for(var i = 0; i <  result.responce.ipc_total; i++)
+                {
+                    ownedIPCs.push(parseInt(result.responce.ipc_list[i].id));
+                }
+
                 params = {
                     dungeonAddress: gameConfig.currentAddress.toUpperCase(),
                     levels: gameConfig.currentAddress.toUpperCase().match(/.{1,2}/g),
