@@ -146,7 +146,7 @@ export default class IPC extends Phaser.Physics.Arcade.Sprite {
     getIpcRequest(ipc, scene) {
 
         const Http = new XMLHttpRequest();
-        const url = gameConfig.public_root + "token_id/" + ipc.getID();
+        const url = "/token_id/" + ipc.getID();
         Http.open("GET", url);
         Http.send();
         Http.onreadystatechange = function () {
@@ -156,7 +156,7 @@ export default class IPC extends Phaser.Physics.Arcade.Sprite {
                     //IPC attributes
                     ipc.#setAttributes(jsonObj);
 
-                    scene.load.spritesheet(ipc.getID(), gameConfig.public_root + 'animSprites/' + ipc.getID()+'.png', { frameWidth: 320, frameHight: 320 });
+                    scene.load.spritesheet(ipc.getID(), '/animSprites/' + ipc.getID()+'.png', { frameWidth: 320, frameHight: 320 });
                     scene.load.once('complete', () => {
                         ipc._callback(ipc);
                         if (ipc.getHandedness() == "Left") {

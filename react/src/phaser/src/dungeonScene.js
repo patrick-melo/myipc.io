@@ -55,7 +55,7 @@ export default class dungeonScene extends Phaser.Scene {
         this.load.image("hole", hole);
 
         this.levels.forEach(element => {
-            this.load.image(element, gameConfig.public_root + "minimaps/" + element + ".jpg");
+            this.load.image(element, "/minimaps/" + element + ".jpg");
         });
         
         this.cursors = this.input.keyboard.createCursorKeys();

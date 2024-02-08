@@ -77,7 +77,7 @@ export default class landingScene extends Phaser.Scene {
         //START REQUEST TO ETHERIUM WALLET
         const req = new XMLHttpRequest();
         req.addEventListener("load", this.reqListener, this);
-        req.open("GET", gameConfig.public_root + "/wallet_address/" + gameConfig.currentAddress + "/group_index/0/group_limit/24");
+        req.open("GET", "/wallet_address/" + gameConfig.currentAddress + "/group_index/0/group_limit/24");
         gameConfig.currentScene = this;
         req.send();
     
