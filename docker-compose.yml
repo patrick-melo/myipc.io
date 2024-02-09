@@ -35,6 +35,7 @@ services:
             DATABASE_URL: $DATABASE_URL
         volumes:
             - ./data:/var/lib/postgresql/data
+            - ./postgresql/root.crt:/root/.postgresql/root.crt
         networks:
             main:
                 aliases:

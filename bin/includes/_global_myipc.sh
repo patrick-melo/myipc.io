@@ -59,7 +59,7 @@ cmd_setversion() {
 #
 cmd_init_postgres() {
     echo "=> create postgres table"
-    cmd_bash postgres 'psql -h localhost -U postgres -d postgres -c "create database myipc"' >/dev/null 2>&1
+    cmd_bash postgres 'psql $DATABASE_URL -c "create database myipc"' >/dev/null 2>&1
     echo "=> node ipc-install"
     cmd_bash web 'node ipc-install'
     echo "=> create sprites zip"
@@ -68,4 +68,4 @@ cmd_init_postgres() {
 
 #+       psql         Execute sql commands
 #
-cmd_psql() { cmd_bash postgres "psql \$DATABASE_URL"; }
+cmd_psql() { cmd_bash postgres 'psql $DATABASE_URL'; }
