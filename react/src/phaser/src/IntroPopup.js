@@ -13,11 +13,12 @@ export default class IntroPopup extends Phaser.GameObjects.GameObject {
 
         var width = config.scene.cameras.main.width * 0.8;
         var height = config.scene.cameras.main.height * 0.8;
-        var centerX = config.scene.cameras.main.worldView.x + config.scene.cameras.main.width / 2;
-        var centerY = config.scene.cameras.main.worldView.y + config.scene.cameras.main.height / 2;
+        var centerX = config.scene.cameras.main.midPoint.x;
+        var centerY = config.scene.cameras.main.midPoint.y;
 
         // Create popup background
-        this.background = this.scene.add.rectangle(centerX, centerY, width, height, '0x000000').setAlpha(0.8);
+        this.background = config.scene.add.rectangle(centerX, centerY, width, height, '0x000000').setAlpha(0.8);
+
         // Create close button
         this.closeButton = config.scene.add.text(centerX + (width * 0.5) - 24, centerY - (height * 0.5) + 24, 'X', { fontFamily: 'PressStart2P', fontSize: '40px', fill: '#fff' }).setOrigin(0.5).setInteractive();
 
@@ -69,8 +70,6 @@ export default class IntroPopup extends Phaser.GameObjects.GameObject {
         this.closeButton.setVisible(visibility);
         this.popupT1.setVisible(visibility);
         this.visible = visibility;
-
-        // this.background.setVisible(visibility);
 
     }
 
