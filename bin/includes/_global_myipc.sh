@@ -28,8 +28,8 @@ cmd_init() { cmd init "$@"; }
 #+       init react   Init react from within the docker container
 #
 cmd_init_web() {
-    echo "=> init react"
-    cmd_bash web 'bin/m.sh init reactlocal'
+    echo "=> init web"
+    cmd_bash web 'bin/m.sh init weblocal'
 }
 
 #+       init react   Init react from the host os
