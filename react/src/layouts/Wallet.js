@@ -17,6 +17,8 @@ import IPCInstance from '../lib/IPCInstance';
 
 import config from '../config';
 
+import Button from "@mui/material/Button";
+
 function getStyle(display) {
 
   return {
@@ -156,6 +158,7 @@ export default function IPCWallet(props) {
         <Stack sx={style.header}>
           <T variant="h5" sx={style.caption}>Viewing Wallet</T>
           <T align="center" noWrap={true}>{instance.wallet_address}</T>
+          <Button variant="contained"  sx={{margin: '8px 4px'}}> VIEW DUNGEON </Button>
         </Stack>
 
         <Box sx={style.stack}>{getIPCWalletItem(instance)}</Box>
