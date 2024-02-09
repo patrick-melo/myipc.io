@@ -27,14 +27,14 @@ cmd_init() { cmd init "$@"; }
 
 #+       init react   Init react from within the docker container
 #
-cmd_init_react() {
+cmd_init_web() {
     echo "=> init react"
     cmd_bash web 'bin/m.sh init reactlocal'
 }
 
 #+       init react   Init react from the host os
 #
-cmd_init_reactlocal() {
+cmd_init_weblocal() {
     npm install
     cd react &&\
         npm install &&\
@@ -57,7 +57,7 @@ cmd_setversion() {
 
 #+       init react   Create a tar.gz file with sprites to commit to the repo.
 #
-cmd_init_sprites() {
+cmd_init_postgres() {
     echo "=> create postgres table"
     cmd_bash postgres 'psql -h localhost -U postgres -d postgres -c "create database myipc"' >/dev/null 2>&1
     echo "=> node ipc-install"

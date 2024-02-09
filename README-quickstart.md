@@ -24,7 +24,7 @@ To get the server to use the files in the repo instead, do the following
 
 3. Run the following command to initialize react outside the container.
 
-    m init react
+    m init web
 
 4. Comment the following line in docker-compose.yml
 
@@ -47,12 +47,13 @@ You will need to start a new terminal window for the changes to take effect.
 
     alias m=~/eclipse-workspace/myipc.io/bin/m.sh
 
-# Sprites
-To rebuild the sprites, you will need the M command (see above).
+# Postgres
+To rebuild the postgres database, you will need the M command (see above).
+This will cause sprites.tgz to be rebuilt but it should be identical.
 
 Run the following command to rebuild the sprites:
 
-    m init sprites
+    m init postgres
 
 # Shells
 

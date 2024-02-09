@@ -13,7 +13,7 @@ RUN npm install -g \
     react-scripts
 
 # Build react
-RUN bin/m.sh init reactlocal
+RUN bin/m.sh init weblocal
 
 # Use a script so that we can change what gets run without rebuilding.
 ENTRYPOINT [ "/usr/app/start.sh" ]
