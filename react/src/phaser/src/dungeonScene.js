@@ -170,7 +170,7 @@ export default class dungeonScene extends Phaser.Scene {
                 this.ownedIPCs[i], this.npcCallBack.bind(this));
             tempNpc.setScale(0.5);
             this.npc.push(tempNpc);
-            this.layer0.setTileIndexCallback(1, this.hitwall, this);
+           
 
             var interval = Math.random() * 10000//(5000 - 2000) + 2000;
             interval = (interval < 5000) ? 5000 : interval;
@@ -204,6 +204,8 @@ export default class dungeonScene extends Phaser.Scene {
         this.generateIPC();
 
         this.generateNPC();
+
+        this.layer0.setTileIndexCallback(1, this.hitwall, this);
 
         this.layer1 = this.dynamicMap.createBlankLayer('layer1', tiles, 0, 0, 18, 18);
         this.layer1.putTilesAt(this.levelData[this.levels[this.currentIndex]][2], 0, 0);
@@ -415,7 +417,7 @@ export default class dungeonScene extends Phaser.Scene {
         if (sprite.isNPC == true && sprite.pNPC != null) {
             sprite.pNPC.ChangeDirection();
         }
-        else if(!this.hitSnd.isPlaying)
+        else if(sprite.isNPC == false && !this.hitSnd.isPlaying)
         {
             this.hitSnd.play(); 
         }
