@@ -11,6 +11,7 @@ export default class IntroPopup extends Phaser.GameObjects.GameObject {
 
         super(config.scene, "IntroPopup");
 
+        config.scene.cameras.main.preRender(1);
         var width = config.scene.cameras.main.width * 0.8;
         var height = config.scene.cameras.main.height * 0.8;
         var centerX = config.scene.cameras.main.midPoint.x;
