@@ -138,7 +138,7 @@ export default class landingScene extends Phaser.Scene {
                 // GET ALL IPCs
                 for(var i = 0; i <  result.responce.ipc_list.length; i++)
                 {
-                    ownedIPCs.push(parseInt(result.responce.ipc_list[i].id));
+                    ownedIPCs.push(parseInt(result.responce.ipc_list[i].token_id));
                 }
 
                 params = {
